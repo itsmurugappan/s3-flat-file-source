@@ -1,0 +1,42 @@
+apiVersion: serving.knative.dev/v1alpha1
+kind: Service
+metadata:
+  name: drug-processor
+spec:
+  template:
+    spec:
+      containers:
+      - env:
+        - name: S3_BUCKET
+          value: drug-split-files
+        envFrom:
+        - secretRef:
+            name: region
+        - secretRef:
+            name: secret
+        - secretRef:
+            name: access
+        - secretRef:
+            name: endpoint
+        # image: ko://github.com/itsmurugappan/s3-flat-file-source/examples/cmd/drug-processor
+        image: docker.io/murugappans/drug-processor-10702380c83e5f758e325219354dadd2@sha256:4734b68d3916d7fb4b0d1ec641eb697b0753af7ae7109cf4916e9808b47618a6
+---
+apiVersion: sources.knative.dev/v1alpha1
+kind: SinkBinding
+metadata:
+  name: bind-drug-file-source
+spec:
+  subject:
+    apiVersion: batch/v1
+    kind: Job
+    selector:
+      matchLabels:
+        app: drug-file-source
+  sink:
+    ref:
+      apiVersion: serving.knative.dev/v1
+      kind: Service
+      name: drug-processor
+  ceOverrides:
+    extensions:
+      sink: bound
