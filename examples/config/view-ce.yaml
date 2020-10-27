@@ -1,0 +1,29 @@
+apiVersion: sources.knative.dev/v1alpha2
+kind: SinkBinding
+metadata:
+  name: view-drug-file-source
+spec:
+  subject:
+    apiVersion: batch/v1
+    kind: Job
+    selector:
+      matchLabels:
+        app: view-drug-file-source
+  sink:
+    ref:
+      apiVersion: serving.knative.dev/v1
+      kind: Service
+      name: cev
+  ceOverrides:
+    extensions:
+      sink: bound
+---
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: cev
+spec:
+  template:
+    spec:
+      containers:
+      - image: docker.io/murugappans/cev:latest
