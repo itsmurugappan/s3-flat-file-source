@@ -57,7 +57,7 @@ Above will deploy ksvc for processing drug file and sinkbinding for binding the 
 To invoke, curl like below
 
 ```
-curl "http://s3-file-source-job-trigger-demo.muru.fun/?labels=app=drug-file-source&S3_BUCKET=druglist&S3_FILE_NAME=drug_uses.csv"
+curl "http://s3-file-source-svc-demo.muru.fun/?labels=app=drug-file-source&S3_BUCKET=druglist&S3_FILE_NAME=drug_uses.csv"
 ```
 
 ## Example 2 - View events on cloud events viewer.
@@ -75,5 +75,5 @@ Open the web page for {ksvc-url}/index.html
 To invoke, curl like below
 
 ```
-curl "http://s3-file-source-job-trigger-demo.muru.fun/?labels=app=view-drug-file-source&S3_BUCKET=druglist&S3_FILE_NAME=drug_uses.csv"
+curl "http://s3-file-source-svc-demo.muru.fun/?labels=app=view-drug-file-source&S3_BUCKET=druglist&S3_FILE_NAME=drug_uses.csv"
 ```
